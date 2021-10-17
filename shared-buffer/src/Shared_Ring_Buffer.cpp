@@ -1,17 +1,21 @@
+/**
+ * @file SharedBuffer.cpp
+ *
+ * @brief See header file for more information
+ *
+ * @author EJ Dohmen
+ *
+ */
+
 #include "Shared_Ring_Buffer.hpp"
 
 using namespace posix_utils;
-
 
 
 std::unique_ptr<Shared_Ring_Buffer> Shared_Ring_Buffer::create(size_t block_sz_bytes, size_t num_blocks)
 {
     // Using `new` to access a non-public constructor.
     std::unique_ptr<Shared_Ring_Buffer> me_ptr( new Shared_Ring_Buffer(block_sz_bytes, num_blocks) );
-    //std::unique_ptr<Shared_Ring_Buffer> me_ptr = std::make_unique<Shared_Ring_Buffer>(block_sz_bytes, num_blocks);
-
-
-
     return me_ptr;
 }
 
@@ -46,11 +50,16 @@ char * Shared_Ring_Buffer::getWritePointerNoBlock()
     return getWritePointer();
 }
 
-void Shared_Ring_Buffer::releaseWritePointer()
+bool Shared_Ring_Buffer::releaseWritePointer()
 {
-    _have_writer_pointer = false;
-    _writer_index = (_writer_index + 1) % _num_blocks;
-    _reader_sem.unlock_one();
+    if( _have_writer_pointer )
+    {
+        _have_writer_pointer = false;
+        _writer_index = (_writer_index + 1) % _num_blocks;
+        _reader_sem.unlock_one();
+        return true;
+    }
+    return false;
 }
 
 char * Shared_Ring_Buffer::getReadPointer()
@@ -66,15 +75,20 @@ char * Shared_Ring_Buffer::getReadPointer()
 
 char * Shared_Ring_Buffer::getReadPointerNoBlock()
 {
-    if (_reader_sem.isFull() ) return nullptr;
+    if (_reader_sem.isEmpty() ) return nullptr;
     return getReadPointer();
 }
 
-void Shared_Ring_Buffer::releaseReadPointer()
+bool Shared_Ring_Buffer::releaseReadPointer()
 {
-     _have_reader_pointer = false;
-    _reader_index = (_reader_index + 1) % _num_blocks;
-    _writer_sem.unlock_one();
+    if( _have_reader_pointer )
+    {
+        _have_reader_pointer = false;
+        _reader_index = (_reader_index + 1) % _num_blocks;
+        _writer_sem.unlock_one();
+        return true;
+    }
+    return false;
 }
 
 size_t Shared_Ring_Buffer::getBlockSzBytes()
