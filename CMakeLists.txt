@@ -8,8 +8,8 @@ find_package(GTest REQUIRED)
 
 #include_directories(${GTEST_INCLUDE_DIRS})
 
-#set(CMAKE_CXX_STANDARD 20)
-add_compile_options(-Wall -Wextra -Wpedantic -std=c++20)
+set(CMAKE_CXX_STANDARD 17)
+add_compile_options(-Wall -Wextra -Wpedantic )
 
 #Don't really like this include
 include_directories(${PROJECT_SOURCE_DIR}/shared-buffer/include)

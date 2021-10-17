@@ -14,3 +14,7 @@ Planning on adding implementations that are optimized for specific use cases.
 | ------------------ | -------------------------------------------------- |
 | Shared_Ring_Buffer | Good in producer-consumer environments where producer's transformation targets an output buffer, and that data needs to be passed to the consumer cheaply. Buffer is then available for consumer to use, and could feed another transform. |
 
+# Dependencies 
+| Dependency Name         | Notes                    |URL              |
+| ----------------------- | ------------------------ | ------------------------------------------------ |
+| gTest                   | For running unit tests   | https://github.com/google/googletest | 
