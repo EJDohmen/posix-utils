@@ -4,7 +4,9 @@ project (posix-utils)
 
 enable_testing()
 find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
+
+
+#include_directories(${GTEST_INCLUDE_DIRS})
 
 #set(CMAKE_CXX_STANDARD 20)
 add_compile_options(-Wall -Wextra -Wpedantic -std=c++20)
