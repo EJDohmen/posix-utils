@@ -2,11 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project (posix-utils)
 
-enable_testing()
-find_package(GTest REQUIRED)
+option(BUILD_TESTS "Build test programs" ON)
 
-
-#include_directories(${GTEST_INCLUDE_DIRS})
 
 set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Wall -Wextra -Wpedantic )
@@ -24,6 +21,10 @@ add_subdirectory(synchronization/)
 
 
 #Add unit tests
+if( BUILD_TESTS )
+enable_testing()
+find_package(GTest REQUIRED)
 add_subdirectory(tests/)
+endif()
 
 

@@ -17,4 +17,19 @@ Planning on adding implementations that are optimized for specific use cases.
 # Dependencies 
 | Dependency Name         | Notes                    |URL              |
 | ----------------------- | ------------------------ | ------------------------------------------------ |
-| gTest                   | For running unit tests   | https://github.com/google/googletest | 
+| gTest                   | For running unit tests   | https://github.com/google/googletest |
+
+# Cloning/Building 
+`
+git clone https://github.com/EJDohmen/posix-utils.git
+cd posix-utils
+mkdir build/
+cd build/
+cmake ..
+make
+` 
+
+You can disable building the unit tests by changing the cmake command:
+`
+cmake -DBUILD_TESTS=NO ..
+`
